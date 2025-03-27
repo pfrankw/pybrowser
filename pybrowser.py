@@ -1,9 +1,11 @@
 import os
 import mimetypes
-from flask import Flask, request, Response, render_template
+from flask import Flask, request, Response, render_template, abort
 
 app = Flask(__name__)
-DIRECTORY = os.getenv("DIRECTORY", "/app/files")  # Default directory inside container
+DIRECTORY = os.getenv("DIRECTORY", "/files")  # Default directory inside container
+PORT = os.getenv("PORT", 5000)
+DEBUG = os.getenv("DEBUG", False)
 
 @app.route('/')
 @app.route('/<path:subpath>')
@@ -11,8 +13,14 @@ def access_path(subpath=''):
 
     fullpath = os.path.join(DIRECTORY, subpath)
 
+    if not os.path.realpath(fullpath).startswith(os.path.realpath(DIRECTORY)):
+        abort(403, "Access denied")
+
+    if '..' in subpath:
+        abort(403, "Access denied")
+
     if (not os.path.exists(fullpath)):
-        return f'The path does not exist', 404
+        abort(404, 'The path does not exist')
 
     if (os.path.isdir(fullpath)):
 
@@ -134,4 +142,4 @@ def download_file(filename):
                              "Content-Length": str(file_size)})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=PORT, debug=DEBUG)
