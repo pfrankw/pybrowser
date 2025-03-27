@@ -70,6 +70,7 @@ def access_path(subpath=''):
                         remaining_bytes -= len(chunk)
 
             headers = {
+                "Content-Disposition": "inline",
                 "Content-Range": f"bytes {start}-{end}/{file_size}",
                 "Accept-Ranges": "bytes",
                 "Content-Length": str(end - start + 1),
