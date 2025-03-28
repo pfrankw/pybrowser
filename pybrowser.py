@@ -16,7 +16,7 @@ def access_path(subpath=''):
     if not os.path.realpath(fullpath).startswith(os.path.realpath(DIRECTORY)):
         abort(403, "Access denied")
 
-    if '..' in subpath:
+    if '..' in subpath: # Too aggressive, I know. Remove it if you trust the above checks
         abort(403, "Access denied")
 
     if (not os.path.exists(fullpath)):
