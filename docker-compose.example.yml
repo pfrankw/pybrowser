@@ -1,0 +1,30 @@
+services:
+  pybrowser:
+    image: ghcr.io/pfrankw/pybrowser:latest
+    environment:
+      - PORT=8080 # Default is 5000
+      - DIRECTORY=/share # Default is /files
+    volumes:
+      - downloads:/share:ro
+
+qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - qbittorrent:/config
+      - downloads:/downloads
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
+
+volumes:
+  qbittorrent:
+  downloads:
