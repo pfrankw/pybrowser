@@ -7,7 +7,7 @@ Also permits to browse folders and download files.
 
 ⚠️ Not to be exposed as it has no authentication. ⚠️  
 
-Example docker-compose.yml
+Example `docker-compose.yml`:
 ```yaml
 services:
   pybrowser:
