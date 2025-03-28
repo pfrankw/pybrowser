@@ -83,7 +83,7 @@ def access_path(subpath=''):
                                  "Content-Length": str(file_size)})
 
     else:
-        return f'The path cannot be accessed', 403
+        abort(403, "Access denied")
 
 
 if __name__ == '__main__':
