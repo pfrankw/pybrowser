@@ -1,9 +1,11 @@
 # PyBrowser
 
 Ultra simple (200 lines of code) Flask application that supports HTTP 206 Partial Content requests.  
-Used for streaming video files instead of more complex applications like Jellyfin, Plex, etc. It opens `mkv` and `mp4` with VLC by default.
-Not to be exposed as it has no authentication.
+Mainly used for streaming video files instead of more complex applications like Jellyfin, Plex, etc.  
+It opens `mkv` and `mp4` with VLC by default.  
 Also permits to browse folders and download files.
+
+⚠️ Not to be exposed as it has no authentication. ⚠️  
 
 Example docker-compose.yml
 ```yaml
