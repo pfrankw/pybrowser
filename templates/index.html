@@ -36,30 +36,40 @@
                     <tbody>
                         {% if back_path %}
                             <tr>
-                                <td colspan="4" class="fs-5">
+                                <td colspan="2" class="fs-5">
                                     <a href="{{ url_for('access_path', subpath=back_path) }}" class="text-decoration-none">
                                         Go up
                                     </a>
                                 </td>
                             </tr>
                         {% endif %}
+
                         {% for entry in files %}
+                        {% if entry.name.endswith(('.mkv', '.mp4')) %}
+                            {% set has_actions = true %}
+                            {% set href_prefix = 'vlc://' %}
+                            {% set icon = 'file-earmark-play-fill' %}
+                        {% else %}
+                            {% set icon = 'file-earmark-binary-fill' %}
+                        {% endif %}
                         <tr>
-                            <td class="fs-5 text-start">
+                            <td {% if not has_actions %} colspan="2" {% endif %}class="fs-5 text-start">
                                 {% if entry.is_dir() %}
                                     <i class="bi-folder-fill me-1"></i>
                                     <a href="{{ url_for('access_path', subpath=subpath+'/'+entry.name) }}" class="link-light" >{{ entry.name }}</a>
                                 {% else %}
-
-                                    {% if entry.name.endswith(('.mkv', '.mp4')) %} 
-                                        {% set icon = 'file-earmark-play-fill' %}
-                                    {% else %}
-                                        {% set icon = 'file-earmark-binary-fill' %}
-                                    {% endif %}
-    
                                     <i class="bi bi-{{icon}}"></i>
-                                    <a href="{{href_prefix}}{{ url_for('access_path', subpath=subpath+'/'+entry.name, _external=True) }}" class="link-info" >{{ entry.name }}</a>
+                                    <!-- <a href="{{href_prefix}}{{ url_for('access_path', subpath=subpath+'/'+entry.name, _external=True) }}" class="link-info" >{{ entry.name }}</a> -->
+                                    {{ entry.name }}
                                 {% endif %}
+                            </td>
+                            {% if entry.name.endswith(('.mkv', '.mp4')) %}
+                                <td class="fs-5 text-center">
+                                    <a href="{{href_prefix}}{{ url_for('access_path', subpath=subpath+'/'+entry.name, _external=True) }}" class="btn btn-success"><i class="bi bi-play"></i></a>
+                                </td>
+                            {% endif %}
+                            <td class="fs-5 text-end">
+                                <a href="{{ url_for('access_path', subpath=subpath+'/'+entry.name, _external=True) }}" class="btn btn-primary" ><i class="bi bi-download"></i></a>
                             </td>
                         </tr>
                         {% endfor %}
