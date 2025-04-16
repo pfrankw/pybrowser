@@ -36,7 +36,7 @@
                     <tbody>
                         {% if back_path %}
                             <tr>
-                                <td colspan="2" class="fs-5">
+                                <td colspan="3" class="fs-5">
                                     <a href="{{ url_for('access_path', subpath=back_path) }}" class="text-decoration-none">
                                         Go up
                                     </a>
@@ -52,6 +52,7 @@
                         {% else %}
                             {% set icon = 'file-earmark-binary-fill' %}
                         {% endif %}
+
                         <tr>
                             <td {% if not has_actions %} colspan="2" {% endif %}class="fs-5 text-start">
                                 {% if entry.is_dir() %}
@@ -59,7 +60,6 @@
                                     <a href="{{ url_for('access_path', subpath=subpath+'/'+entry.name) }}" class="link-light" >{{ entry.name }}</a>
                                 {% else %}
                                     <i class="bi bi-{{icon}}"></i>
-                                    <!-- <a href="{{href_prefix}}{{ url_for('access_path', subpath=subpath+'/'+entry.name, _external=True) }}" class="link-info" >{{ entry.name }}</a> -->
                                     {{ entry.name }}
                                 {% endif %}
                             </td>
@@ -68,9 +68,11 @@
                                     <a href="{{href_prefix}}{{ url_for('access_path', subpath=subpath+'/'+entry.name, _external=True) }}" class="btn btn-success"><i class="bi bi-play"></i></a>
                                 </td>
                             {% endif %}
+                            {% if not entry.is_dir() %}
                             <td class="fs-5 text-center">
                                 <a href="{{ url_for('access_path', subpath=subpath+'/'+entry.name, _external=True) }}" class="btn btn-primary" ><i class="bi bi-download"></i></a>
                             </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
