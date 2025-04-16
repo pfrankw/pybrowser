@@ -53,8 +53,10 @@
                             {% set icon = 'file-earmark-binary-fill' %}
                         {% endif %}
 
+
+                        {% set colspan = 3 if entry.is_dir() else 1 if has_actions else 2 %}
                         <tr>
-                            <td {% if not has_actions %} colspan="2" {% endif %}class="fs-5 text-start">
+                            <td colspan="{{colspan}}" class="fs-5 text-start">
                                 {% if entry.is_dir() %}
                                     <i class="bi-folder-fill me-1"></i>
                                     <a href="{{ url_for('access_path', subpath=subpath+'/'+entry.name) }}" class="link-light" >{{ entry.name }}</a>
